@@ -1,0 +1,26 @@
+version: '3'
+services:
+  convertor:
+    build: .
+    volumes:
+      - ./:/opt/
+
+  test:
+    build:
+      context: ./
+      dockerfile: Dockerfile.test
+    volumes:
+      - ./:/opt/
+    command: "make test"
+    stdin_open: true
+    tty: true
+
+  lint:
+    build:
+      context: ./
+      dockerfile: Dockerfile.test
+    volumes:
+      - ./:/opt/
+    command: "make lint"
+    stdin_open: true
+    tty: true
