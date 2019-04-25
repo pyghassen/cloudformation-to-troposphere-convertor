@@ -22,9 +22,14 @@ def test_create_template():
         "VPCID": vpc_id_output
     }
 
-    template = create_template(description, metadata, outputs)
+    resources = []
+
+    expected_resources = {}
+
+    template = create_template(description, metadata, outputs, resources)
 
     assert isinstance(template, Template)
     assert template.description == description
     assert template.metadata == metadata
     assert template.outputs == expected_output
+    assert template.resources == expected_resources
