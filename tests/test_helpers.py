@@ -4,7 +4,7 @@ from troposphere import Output
 
 from app.helpers import (
     get_description, get_metadata, get_outputs, get_resources,
-    get_resource_type_name
+    get_resource_type_name, get_property
 )
 
 
