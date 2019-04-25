@@ -4,3 +4,6 @@ test:
 
 lint:
 	./scripts/lint.sh
+
+run:
+	./scripts/run.sh
