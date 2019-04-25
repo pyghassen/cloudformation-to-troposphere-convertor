@@ -1,6 +1,6 @@
 import pytest
 
-from troposphere import Output
+from troposphere import Output, Ref, ec2
 
 from app.helpers import (
     get_description, get_metadata, get_outputs, get_resources,
@@ -112,3 +112,22 @@ def test_get_property_takes_dictionary_value():
     ]
 
     assert get_property('Tags', property_values) == expected_data
+
+
+def test_get_property_takes_ec2_ref():
+    ec2_ref = Ref("InternetGateway")
+    expected_data = {"InternetGatewayId": ec2_ref}
+
+    property_values = {'Ref': 'InternetGateway'}
+
+    assert get_property("InternetGatewayId", property_values) == expected_data
+
+
+def test_get_property_takes_ec2_port_range():
+    property_values = {'From': '443', 'To': '443'}
+
+    _property = get_property('PortRange', property_values)
+    property_name, property_value = _property.popitem()
+
+    assert property_name == 'PortRange'
+    assert isinstance(property_value, ec2.PortRange)
