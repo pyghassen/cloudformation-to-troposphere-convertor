@@ -36,7 +36,11 @@ def get_resource_type_name(resource_values):
 
 
 def get_property(property_name, property_values):
-    if type(property_values) is int:
+    """
+    Gets property from property_name and property_values which troposphere
+    supports.
+    """
+    if isinstance(property_values, int):
         data = {property_name: str(property_values)}
     elif 'Ref' in property_values:
         data = {property_name: Ref(property_values['Ref'])}
@@ -49,11 +53,13 @@ def get_property(property_name, property_values):
 
 
 def get_properties(resource_values):
+    """Gets the properties from resource values."""
     properties = {}
     properties_data = resource_values['Properties']
 
     for property_name, property_values in properties_data.items():
-        property = get_property(property_name, property_values)
-        properties.update(property)
+        properties.update(
+            get_property(property_name, property_values)
+        )
 
     return properties
