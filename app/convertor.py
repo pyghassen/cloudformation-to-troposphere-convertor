@@ -1,3 +1,8 @@
+"""
+Convertor module contains the convert_to_troposphere function which create a
+troposphere file out of cloudformation template.
+"""
+
 from app.factories import create_template, create_resource
 from app.helpers import (
     get_description, get_metadata, get_outputs, get_resources
@@ -5,6 +10,7 @@ from app.helpers import (
 
 
 def convert_to_troposphere(data):
+    """Converts a cloudformation template file content to troposphere."""
     description = get_description(data)
     metadata = get_metadata(data)
 
