@@ -1,5 +1,7 @@
 FROM python:3.7-alpine
 
+RUN apk add --no-cache make
+
 COPY requirements/* /tmp/
 
 RUN pip install -r /tmp/dev.txt
