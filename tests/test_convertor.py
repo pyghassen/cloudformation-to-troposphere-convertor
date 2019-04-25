@@ -1,9 +1,10 @@
-import pytest
+import json
+
+from app.convertor import convert_to_troposphere
 
 
-@pytest.fixture
-def data():
-    return {
+def test_convert_to_troposphere(data):
+    expected_data = {
         "Description": "Service VPC",
         "Metadata": {
             "DependsOn": [],
@@ -99,7 +100,7 @@ def data():
                     },
                     "Protocol": "6",
                     "RuleAction": "allow",
-                    "RuleNumber": 100
+                    "RuleNumber": "100"
                 },
                 "Type": "AWS::EC2::NetworkAclEntry"
             },
@@ -112,9 +113,11 @@ def data():
                     },
                     "Protocol": "6",
                     "RuleAction": "allow",
-                    "RuleNumber": 200
+                    "RuleNumber": "200"
                 },
                 "Type": "AWS::EC2::NetworkAclEntry"
             }
         }
     }
+    troposphere_template = convert_to_troposphere(data)
+    assert json.loads(troposphere_template) == expected_data
