@@ -41,15 +41,14 @@ def get_property(property_name, property_values):
     supports.
     """
     if isinstance(property_values, int):
-        data = {property_name: str(property_values)}
+        return {property_name: str(property_values)}
     elif 'Ref' in property_values:
-        data = {property_name: Ref(property_values['Ref'])}
+        return {property_name: Ref(property_values['Ref'])}
     elif 'PortRange' in property_name:
-        data = {property_name: ec2.PortRange(**property_values)}
+        return {property_name: ec2.PortRange(**property_values)}
     else:
-        data = {property_name: property_values}
+        return {property_name: property_values}
 
-    return data
 
 
 def get_properties(resource_values):
