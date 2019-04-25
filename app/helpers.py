@@ -1,5 +1,6 @@
 """
-Helpers module conatains helper function to extract data from the input file.
+Helpers module conatains helper function to extract description, metadata,
+outputs, resources from the cloudformation template file content.
 """
 from troposphere import Ref, Output, ec2
 

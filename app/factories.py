@@ -1,6 +1,6 @@
 """
 Factories module contains all the factories functions to create troposphere
-template.
+template and resources.
 """
 from troposphere import Template, ec2
 from app.helpers import get_resource_type_name, get_properties
