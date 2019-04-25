@@ -87,3 +87,28 @@ def test_get_resources(data):
 def test_get_resource_type_name(resource_values, expected_type_name):
     resource_type_name = get_resource_type_name(resource_values)
     assert resource_type_name == expected_type_name
+
+
+def test_get_property_takes_integer_value():
+    assert get_property('RuleNumber', 100) == {'RuleNumber': '100'}
+
+
+def test_get_property_takes_string_value():
+    expected_data = {'CidrBlock': '10.0.0.0/16'}
+    assert get_property('CidrBlock', '10.0.0.0/16') == expected_data
+
+
+def test_get_property_takes_dictionary_value():
+    expected_data = {
+        'Tags': [
+            {'Key': 'Environment', 'Value': 'Development'},
+            {'Key': 'Name', 'Value': 'Development-InternetGateway'}
+        ]
+    }
+
+    property_values = [
+        {'Key': 'Environment', 'Value': 'Development'},
+        {'Key': 'Name', 'Value': 'Development-InternetGateway'}
+    ]
+
+    assert get_property('Tags', property_values) == expected_data
