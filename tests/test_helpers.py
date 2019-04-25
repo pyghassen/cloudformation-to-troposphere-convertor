@@ -4,7 +4,7 @@ from troposphere import Output, Ref, ec2
 
 from app.helpers import (
     get_description, get_metadata, get_outputs, get_resources,
-    get_resource_type_name, get_property
+    get_resource_type_name, get_property, get_properties
 )
 
 
@@ -131,3 +131,56 @@ def test_get_property_takes_ec2_port_range():
 
     assert property_name == 'PortRange'
     assert isinstance(property_value, ec2.PortRange)
+
+
+@pytest.mark.parametrize(
+    "resource_values,expected_properties",
+    [
+        (
+            {
+                'Properties':
+                    {
+                        'Tags': [
+                            {'Key': 'Environment', 'Value': 'Development'},
+                            {'Key': 'Name', 'Value': 'Development-InternetGateway'} # noqa
+                        ]
+                    },
+                'Type': 'AWS::EC2::InternetGateway'
+            },
+            {
+                'Tags': [
+                    {'Key': 'Environment', 'Value': 'Development'},
+                    {'Key': 'Name', 'Value': 'Development-InternetGateway'}
+                ]
+            }
+        ),
+        (
+            {
+                'Properties': {
+                    'CidrBlock': '10.0.0.0/16',
+                    'EnableDnsHostnames': 'true',
+                    'EnableDnsSupport': 'true',
+                    'InstanceTenancy': 'default',
+                    'Tags': [
+                        {'Key': 'Environment', 'Value': 'Development'},
+                        {'Key': 'Name', 'Value': 'Development-ServiceVPC'}
+                    ]
+                },
+                'Type': 'AWS::EC2::VPC'
+            },
+            {
+                'CidrBlock': '10.0.0.0/16',
+                'EnableDnsHostnames': 'true',
+                'EnableDnsSupport': 'true',
+                'InstanceTenancy': 'default',
+                'Tags': [
+                    {'Key': 'Environment', 'Value': 'Development'},
+                    {'Key': 'Name', 'Value': 'Development-ServiceVPC'}
+                ]
+            }
+        ),
+    ]
+)
+def test_get_properties(resource_values, expected_properties):
+    properties = get_properties(resource_values)
+    assert properties == expected_properties
